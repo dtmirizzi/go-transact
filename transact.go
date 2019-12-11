@@ -4,27 +4,28 @@ import (
 	"sync"
 )
 
-// Process is a process in the transaction that can be undone
-// Name must be unique to insure proper error handling
+// Process defines a subroutine in the transaction.
+// Up describes changes, Down describes the changes to undo the up function.
+// Name must be unique to insure proper error handling.
 type Process struct {
 	Name string
 	Up   func() error
 	Down func() error
 }
 
-// Transaction Transaction is a set of processes
+// Transaction is a set of dependant sub-processes
 type Transaction struct {
 	Processes []Process
 }
 
-// NewTransaction Returns a new transaction
+// NewTransaction returns a new transaction
 func NewTransaction(p ...Process) *Transaction {
 	return &Transaction{
 		Processes: p,
 	}
 }
 
-// AddProcess allows you to add processes to the transaction block
+// AddProcess adds processes to the transaction block
 func (t *Transaction) AddProcess(p ...Process) {
 	t.Processes = append(t.Processes, p...)
 }
@@ -66,7 +67,6 @@ func (t *Transaction) Transact() error {
 }
 
 // helpers
-
 func except(l []Process, r []Process) (pe []Process) {
 	for _, l0 := range l {
 		if !contains(l0, r) {

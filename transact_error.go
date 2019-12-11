@@ -1,13 +1,13 @@
 package transact
 
-// TransactionError Defines transaction errors
-// Indexed by process name
+// TransactionError defines errors that occur during a transaction, and provide helpers for operating and handling.
+// errors indexed by process name.
 type TransactionError struct {
 	UpErrors   map[string]ProcessError
 	DownErrors map[string]ProcessError
 }
 
-// ProcessError Processed error
+// ProcessError contains a process and error that occurred when running said process.
 type ProcessError struct {
 	Process Process
 	Error   error
