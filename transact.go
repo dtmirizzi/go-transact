@@ -5,10 +5,11 @@ import (
 )
 
 // Process is a process in the transaction that can be undone
+// Name must be unique to insure proper error handling
 type Process struct {
-	Name     string
-	RollOut  func() error
-	Rollback func() error
+	Name string
+	Up   func() error
+	Down func() error
 }
 
 // Transaction Transaction is a set of processes
@@ -30,28 +31,37 @@ func (t *Transaction) AddProcess(p ...Process) {
 
 // Transact performs the transaction
 func (t *Transaction) Transact() error {
-	fp := make([]Process, 0)
+	pErr := TransactionError{}
 
+	// Up
 	wg := sync.WaitGroup{}
 	for _, p := range t.Processes {
 		wg.Add(1)
 		go func() {
-			err := p.RollOut
+			err := p.Up()
 			if err != nil {
-				fp = append(fp, p)
+				pErr.UpErrors[p.Name] = ProcessError{
+					Process: p,
+					Error:   err,
+				}
 			}
 			wg.Done()
 		}()
 	}
-
 	wg.Wait()
 
-	ex := except(t.Processes, fp)
-
+	// Validate success
+	ex := except(t.Processes, pErr.FailedProcesses())
 	if len(ex) != len(t.Processes) {
 
 	}
 
+	// Down
+
+	// Todo Better error handling
+	if len(pErr.FailedProcesses()) > 0 {
+		return &pErr
+	}
 	return nil
 }
 
