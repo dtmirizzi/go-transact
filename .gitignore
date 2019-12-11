@@ -1,0 +1,9 @@
+vendor/
+build/
+coverage/
+testCoverage*
+
+.idea/
+.vscode/
+
+DS_Store*
