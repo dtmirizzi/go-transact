@@ -31,6 +31,7 @@ func (t *Transaction) AddProcess(p ...Process) {
 }
 
 // Transact performs the transaction
+// [Not thread safe]
 func (t *Transaction) Transact() error {
 	pErr := t.up()
 	if pErr != nil {
@@ -39,8 +40,7 @@ func (t *Transaction) Transact() error {
 	return pErr
 }
 
-func (t *Transaction) up() *TransactionError {
-	// Up
+func (t *Transaction) up() (pErr *TransactionError) {
 	wg := sync.WaitGroup{}
 	for _, p := range t.Processes {
 		wg.Add(1)
@@ -56,17 +56,20 @@ func (t *Transaction) up() *TransactionError {
 		}()
 	}
 	wg.Wait()
+
+	return pErr
 }
 
-func (t *Transaction) down(*TransactionError) *TransactionError {
+func (t *Transaction) down(pErr *TransactionError) *TransactionError {
 	// down
+	dp := except(t.Processes, pErr.FailedProcesses())
 	wg := sync.WaitGroup{}
-	for _, p := range t.Processes {
+	for _, p := range dp {
 		wg.Add(1)
 		go func() {
-			err := p.Up()
+			err := p.Down()
 			if err != nil {
-				pErr.UpErrors[p.Name] = ProcessError{
+				pErr.DownErrors[p.Name] = ProcessError{
 					Process: p,
 					Error:   err,
 				}
@@ -75,6 +78,8 @@ func (t *Transaction) down(*TransactionError) *TransactionError {
 		}()
 	}
 	wg.Wait()
+
+	return pErr
 }
 
 // helpers
