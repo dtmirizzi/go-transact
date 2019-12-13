@@ -41,19 +41,18 @@ func (t *Transaction) Transact() error {
 }
 
 func (t *Transaction) up() (pErr *TransactionError) {
-	wg := sync.WaitGroup{}
+	var wg sync.WaitGroup
+
 	for _, p := range t.Processes {
 		wg.Add(1)
-		go func() {
-			err := p.Up()
-			if err != nil {
-				pErr.UpErrors[p.Name] = ProcessError{
-					Process: p,
-					Error:   err,
-				}
+		err := p.Up()
+		if err != nil {
+			pErr.UpErrors[p.Name] = ProcessError{
+				Process: p,
+				Error:   err,
 			}
-			wg.Done()
-		}()
+		}
+		wg.Done()
 	}
 	wg.Wait()
 
@@ -61,21 +60,20 @@ func (t *Transaction) up() (pErr *TransactionError) {
 }
 
 func (t *Transaction) down(pErr *TransactionError) *TransactionError {
-	// down
+	var wg sync.WaitGroup
+
 	dp := except(t.Processes, pErr.FailedProcesses())
-	wg := sync.WaitGroup{}
+
 	for _, p := range dp {
 		wg.Add(1)
-		go func() {
-			err := p.Down()
-			if err != nil {
-				pErr.DownErrors[p.Name] = ProcessError{
-					Process: p,
-					Error:   err,
-				}
+		err := p.Down()
+		if err != nil {
+			pErr.DownErrors[p.Name] = ProcessError{
+				Process: p,
+				Error:   err,
 			}
-			wg.Done()
-		}()
+		}
+		wg.Done()
 	}
 	wg.Wait()
 

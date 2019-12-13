@@ -10,19 +10,19 @@ func Test(t *testing.T) {
 	t.Run("clear", func(t *testing.T) {
 		trans := NewTransaction(Process{
 			Name: "p0",
-			RollOut: func() error {
+			Up: func() error {
 				return nil
 			},
-			Rollback: func() error {
+			Down: func() error {
 				return nil
 			},
 		},
 			Process{
 				Name: "p1",
-				RollOut: func() error {
+				Up: func() error {
 					return nil
 				},
-				Rollback: func() error {
+				Down: func() error {
 					return nil
 				},
 			})
@@ -34,19 +34,19 @@ func Test(t *testing.T) {
 	t.Run("roll out failure", func(t *testing.T) {
 		trans := NewTransaction(Process{
 			Name: "p0",
-			RollOut: func() error {
+			Up: func() error {
 				return errors.New("process failed")
 			},
-			Rollback: func() error {
+			Down: func() error {
 				return nil
 			},
 		},
 			Process{
 				Name: "p1",
-				RollOut: func() error {
+				Up: func() error {
 					return nil
 				},
-				Rollback: func() error {
+				Down: func() error {
 					return nil
 				},
 			})
