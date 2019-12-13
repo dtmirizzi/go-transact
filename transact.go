@@ -31,7 +31,6 @@ func (t *Transaction) AddProcess(p ...Process) {
 }
 
 // Transact performs the transaction
-// [Not thread safe]
 func (t *Transaction) Transact() error {
 	pErr := t.up()
 	if pErr != nil {
