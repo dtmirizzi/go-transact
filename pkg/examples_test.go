@@ -1,6 +1,6 @@
 package transact
 
-func ExampleTransaction_Transact() {
+func ExampleTransaction() {
 
 	trans := NewTransaction(Process{
 		Name: "p0",
