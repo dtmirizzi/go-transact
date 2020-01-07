@@ -8,7 +8,31 @@
 [Documentation](https://godoc.org/github.com/dtmirizzi/go-transact/pkg)
 ### Basic Example 
 ```
+t := NewTransaction(Process{
+    Name: "p0",
+    Up: func() error {
+        // Do something
+        return nil
+    },
+    Down: func() error {
 
+        return nil
+    },
+},
+    Process{
+        Name: "p1",
+        Up: func() error {
+            return nil
+        },
+        Down: func() error {
+            return nil
+        },
+    })
+
+err := t.Transact()
+if err != nil {
+
+}
 ```
 
 ## Development
