@@ -77,7 +77,7 @@ func (t *TransactionError) FailedProcessErrors() (ps []ProcessError) {
 
 // Safe is a helper a returns true when an error occurred but all the down operations ran successfully.
 func (t *TransactionError) Safe() bool {
-	return len(t.DownErrors) > 0
+	return len(t.DownErrors) <= 0
 }
 
 func formatProcessError(p ProcessError) string {
