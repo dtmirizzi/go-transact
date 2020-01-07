@@ -58,6 +58,7 @@ func TestTransaction_Transact(t *testing.T) {
 				return errors.New("process 0 failed")
 			},
 			Down: func() error {
+				// This should not run!
 				return errors.New("process 0 down failed")
 			},
 		})
@@ -66,7 +67,8 @@ func TestTransaction_Transact(t *testing.T) {
 		assert.NotNil(t, err)
 		tErr, ok := err.(*TransactionError)
 		assert.True(t, ok)
-		assert.False(t, tErr.Safe())
+		// TODO this should be safe the down func should not run!
+		assert.True(t, tErr.Safe())
 	})
 
 	t.Run("Only Down Failure", func(t *testing.T) {
