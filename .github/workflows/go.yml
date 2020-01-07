@@ -14,7 +14,7 @@ jobs:
       id: go
 
     - name: Get dependencies
-      run: ls && make vendor
+      run: ls
 
     - name: Test
       run: make test
