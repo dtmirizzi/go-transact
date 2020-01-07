@@ -14,7 +14,8 @@ jobs:
       id: go
 
     - name: Get dependencies
-      run: ls
+      run: echo $PATH
+      shell: bash
 
     - name: Test
       run: make test
