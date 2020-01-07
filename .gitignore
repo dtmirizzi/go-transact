@@ -7,3 +7,5 @@ testCoverage*
 .vscode/
 
 DS_Store*
+
+coverage.txt
