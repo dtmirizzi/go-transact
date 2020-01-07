@@ -1,19 +1,18 @@
 name: Go
 on: [push]
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
     - name: Set up Go 1.13
-        uses: actions/setup-go@v1
-        with:
-          go-version: 1.13
-        id: go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13
+      id: go
     - name: Get dependencies
-        run: ls
-        shell: bash
+      run: ls
+      shell: bash
     - name: Test
-        run: make test
-        shell: bash
+      run: make test
+      shell: bash
