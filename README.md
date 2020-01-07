@@ -13,32 +13,22 @@
 ```
     t := NewTransaction()
 	
+	// Create DB Table 
+	// This function describes how to create the table
 	CreateDBTable := func() error {
 		// Do something
 		return nil
 	}
+	// This function describes how to remove the table 
 	DeleteDBTable := func() error {
 		// Do something
 		return nil
 	}
+	// This adds the process the the queue 
 	t.AddProcess(Process{
 		Name: "p0",
 		Up:   CreateDBTable,
 		Down: DeleteDBTable,
-	})
-	
-	PutMessageOnQueue := func() error {
-		// Do something
-		return nil
-	}
-	DeleteMessageFromQueue := func() error {
-		// Do something
-		return nil
-	}
-	t.AddProcess(Process{
-		Name: "p1",
-		Up: PutMessageOnQueue,
-		Down: DeleteMessageFromQueue,
 	})
 
 	err := t.Transact()
