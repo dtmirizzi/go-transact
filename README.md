@@ -31,7 +31,11 @@ t := NewTransaction(Process{
 
 err := t.Transact()
 if err != nil {
-
+    tErr := err.(*TransactionError)
+	fmt.Println(tErr)
+	if !tErr.Safe() {
+		panic("Failed to safely revert changes!")
+	}
 }
 ```
 

@@ -1,5 +1,7 @@
 package transact
 
+import "fmt"
+
 func ExampleTransaction() {
 
 	trans := NewTransaction(Process{
@@ -25,6 +27,10 @@ func ExampleTransaction() {
 
 	err := trans.Transact()
 	if err != nil {
-
+		tErr := err.(*TransactionError)
+		fmt.Println(tErr)
+		if !tErr.Safe() {
+			panic("Failed to safely revert changes!")
+		}
 	}
 }
