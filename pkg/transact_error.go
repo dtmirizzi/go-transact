@@ -4,7 +4,6 @@ import (
 	"fmt"
 )
 
-
 // TransactionError defines errors that occur during a transaction, and provide helpers for operating and handling.
 // errors indexed by process name.
 type TransactionError struct {
@@ -18,17 +17,39 @@ type ProcessError struct {
 	Error   error
 }
 
+// NewTransactionError returns a new initialized transaction error
+func NewTransactionError() *TransactionError {
+	return &TransactionError{
+		UpErrors:   map[string]ProcessError{},
+		DownErrors: map[string]ProcessError{},
+	}
+}
+
+// AppendUpError appends up process errors
+func (t *TransactionError) AppendUpError(ps ...ProcessError) {
+	for _, p := range ps {
+		t.UpErrors[p.Process.Name] = p
+	}
+}
+
+// AppendDownError appends down process error
+func (t *TransactionError) AppendDownError(ps ...ProcessError) {
+	for _, p := range ps {
+		t.DownErrors[p.Process.Name] = p
+	}
+}
+
 // Error Implements the error
 func (t *TransactionError) Error() string {
 	e := "UpErrors:[ "
 	for _, p := range t.UpErrors {
 		e += formatProcessError(p)
 	}
-	e +=  "] DownErrors:[ "
+	e += "] DownErrors:[ "
 	for _, p := range t.DownErrors {
 		e += formatProcessError(p)
 	}
-	e +=  "]"
+	e += "]"
 	return e
 }
 

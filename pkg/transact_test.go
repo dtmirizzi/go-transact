@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func Test(t *testing.T) {
+func TestTransaction_Transact(t *testing.T) {
 	t.Run("clear", func(t *testing.T) {
 		trans := NewTransaction(Process{
 			Name: "p0",

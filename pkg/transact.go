@@ -4,15 +4,6 @@ import (
 	"sync"
 )
 
-// Process defines a subroutine in the transaction.
-// Up describes changes, Down describes the changes to undo the up function.
-// Name must be unique to insure proper error handling.
-type Process struct {
-	Name string
-	Up   func() error
-	Down func() error
-}
-
 // Transaction is a set of dependant sub-processes
 type Transaction struct {
 	Processes []Process
@@ -40,25 +31,32 @@ func (t *Transaction) Transact() error {
 	return pErr
 }
 
-func (t *Transaction) up() (pErr *TransactionError) {
+func (t *Transaction) up() *TransactionError {
 	var wg sync.WaitGroup
+	errs := make([]ProcessError, 0)
 
 	for _, p := range t.Processes {
 		wg.Add(1)
 		go func(process Process) {
 			err := process.Up()
 			if err != nil {
-				pErr.UpErrors[process.Name] = ProcessError{
+				errs = append(errs, ProcessError{
 					Process: process,
 					Error:   err,
-				}
+				})
 			}
 			wg.Done()
 		}(p)
 	}
 	wg.Wait()
 
-	return pErr
+	if len(errs) > 0 {
+		err := NewTransactionError()
+		err.AppendUpError(errs...)
+		return err
+	}
+
+	return nil
 }
 
 func (t *Transaction) down(pErr *TransactionError) *TransactionError {
@@ -71,10 +69,10 @@ func (t *Transaction) down(pErr *TransactionError) *TransactionError {
 		go func(process Process) {
 			err := process.Down()
 			if err != nil {
-				pErr.DownErrors[process.Name] = ProcessError{
+				pErr.AppendDownError(ProcessError{
 					Process: process,
 					Error:   err,
-				}
+				})
 			}
 			wg.Done()
 		}(p)
