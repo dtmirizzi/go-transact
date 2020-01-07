@@ -3,29 +3,37 @@ package transact
 import "fmt"
 
 func ExampleTransaction() {
+	t := NewTransaction()
 
-	trans := NewTransaction(Process{
+	CreateDBTable := func() error {
+		// Do something
+		return nil
+	}
+	DeleteDBTable := func() error {
+		// Do something
+		return nil
+	}
+	t.AddProcess(Process{
 		Name: "p0",
-		Up: func() error {
-			// Do something
-			return nil
-		},
-		Down: func() error {
+		Up:   CreateDBTable,
+		Down: DeleteDBTable,
+	})
 
-			return nil
-		},
-	},
-		Process{
-			Name: "p1",
-			Up: func() error {
-				return nil
-			},
-			Down: func() error {
-				return nil
-			},
-		})
+	PutMessageOnQueue := func() error {
+		// Do something
+		return nil
+	}
+	DeleteMessageFromQueue := func() error {
+		// Do something
+		return nil
+	}
+	t.AddProcess(Process{
+		Name: "p1",
+		Up:   PutMessageOnQueue,
+		Down: DeleteMessageFromQueue,
+	})
 
-	err := trans.Transact()
+	err := t.Transact()
 	if err != nil {
 		tErr := err.(*TransactionError)
 		fmt.Println(tErr)
