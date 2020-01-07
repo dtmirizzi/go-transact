@@ -6,16 +6,14 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-
     - name: Set up Go 1.13
-      uses: actions/setup-go@v1
-      with:
-        go-version: 1.13
-      id: go
-
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+        id: go
     - name: Get dependencies
-      run: echo $PATH
-      shell: bash
-
+        run: ls
+        shell: bash
     - name: Test
-      run: make test
+        run: make test
+        shell: bash
