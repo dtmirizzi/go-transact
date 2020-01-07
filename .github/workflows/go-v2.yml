@@ -1,4 +1,4 @@
-name: Go
+name: Test
 on: [push]
 jobs:
 
@@ -18,7 +18,7 @@ jobs:
 
     - name: Get dependencies
       run: |
-        go mod vendor -v 
+        go mod vendor -v
 
     - name: Test
       run: |

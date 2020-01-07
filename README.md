@@ -1,5 +1,8 @@
 # Go-Transact
 
+![](https://github.com/dtmirizzi/go-transact/workflows/Test/badge.svg)
+
+
 ## Install 
 ```$xslt
  go get -u github.com/dtmirizzi/go-transact
