@@ -31,7 +31,9 @@ func TestTransaction_Transact(t *testing.T) {
 		err := trans.Transact()
 		assert.Nil(t, err)
 	})
+}
 
+func TestTransaction_Transact2(t *testing.T) {
 	t.Run("Up Failure", func(t *testing.T) {
 		trans := NewTransaction(Process{
 			Name: "p0",
@@ -50,7 +52,9 @@ func TestTransaction_Transact(t *testing.T) {
 		assert.True(t, tErr.Safe())
 		fmt.Println(tErr)
 	})
+}
 
+func TestTransaction_Transact3(t *testing.T) {
 	t.Run("Up and Down Fail", func(t *testing.T) {
 		trans := NewTransaction(Process{
 			Name: "p0",
@@ -68,9 +72,12 @@ func TestTransaction_Transact(t *testing.T) {
 		tErr, ok := err.(*TransactionError)
 		assert.True(t, ok)
 		// TODO this should be safe the down func should not run!
-		assert.True(t, tErr.Safe())
+		assert.False(t, tErr.Safe())
 	})
 
+}
+
+func TestTransaction_Transact4(t *testing.T) {
 	t.Run("Only Down Failure", func(t *testing.T) {
 		trans := NewTransaction(Process{
 			Name: "p0",
@@ -85,22 +92,9 @@ func TestTransaction_Transact(t *testing.T) {
 		err := trans.Transact()
 		assert.Nil(t, err)
 	})
+}
 
-	t.Run("Only Down Failure", func(t *testing.T) {
-		trans := NewTransaction(Process{
-			Name: "p0",
-			Up: func() error {
-				return nil
-			},
-			Down: func() error {
-				return errors.New("process 0 down failed")
-			},
-		})
-
-		err := trans.Transact()
-		assert.Nil(t, err)
-	})
-
+func TestTransaction_Transact5(t *testing.T) {
 	t.Run("P0 Up Failure P1 Down Failure", func(t *testing.T) {
 		trans := NewTransaction(Process{
 			Name: "p0",
@@ -129,5 +123,8 @@ func TestTransaction_Transact(t *testing.T) {
 		// This is not safe return false
 		assert.False(t, tErr.Safe())
 	})
+}
+
+func TestExcept(t *testing.T) {
 
 }

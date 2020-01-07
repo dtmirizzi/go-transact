@@ -62,7 +62,7 @@ func (t *Transaction) up() *TransactionError {
 func (t *Transaction) down(pErr *TransactionError) *TransactionError {
 	var wg sync.WaitGroup
 
-	dp := except(t.Processes, pErr.FailedProcesses())
+	dp := Except(t.Processes, pErr.FailedProcesses())
 
 	for _, p := range dp {
 		wg.Add(1)
@@ -83,7 +83,9 @@ func (t *Transaction) down(pErr *TransactionError) *TransactionError {
 }
 
 // helpers
-func except(l []Process, r []Process) (pe []Process) {
+
+// Except returns all left unique processes
+func Except(l []Process, r []Process) (pe []Process) {
 	for _, l0 := range l {
 		if !contains(l0, r) {
 			pe = append(pe, l0)
