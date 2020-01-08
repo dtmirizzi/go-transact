@@ -35,7 +35,7 @@ t.AddProcess(NewProc(ProcConfig{
 err := t.Transact()
 if err != nil {
 	if tErr, ok := err.(*TransactionError); ok {
-		fmt.Println(tErr)
+	fmt.Println(tErr)
         if !tErr.Safe() {
             panic("Failed to safely revert changes!")
         }
