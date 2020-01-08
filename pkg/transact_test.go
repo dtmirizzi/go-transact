@@ -79,8 +79,7 @@ func TestTransaction_Transact3(t *testing.T) {
 		assert.NotNil(t, err)
 		tErr, ok := err.(*TransactionError)
 		assert.True(t, ok)
-		// TODO this should be safe the down func should not run!
-		assert.False(t, tErr.Safe())
+		assert.True(t, tErr.Safe())
 	})
 
 }

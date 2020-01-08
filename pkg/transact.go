@@ -96,7 +96,7 @@ func Except(l []Process, r []Process) (pe []Process) {
 
 func contains(needle Process, haystack []Process) bool {
 	for _, p := range haystack {
-		if &needle == &p {
+		if needle == p {
 			return true
 		}
 	}
