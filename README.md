@@ -62,9 +62,7 @@ t.AddProcess( NewProc( &ProcConfig{
 	Down: RemoveCredsToIncognito,
 }))
 
-// You may add any struct that meets the Process interface...
-
-// Make Transaction concurrently (NOT TREAD SAFE)
+//-- Make Transaction concurrently (NOT TREAD SAFE) --//
 err := t.Transact()
 if err != nil {
     // You may cast the error to gain helper methods 
