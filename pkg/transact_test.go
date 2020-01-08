@@ -26,7 +26,7 @@ func TestTransaction_Transact(t *testing.T) {
 		})
 
 		p1 := NewProc(ProcConfig{
-			Name: "p0",
+			Name: "p1",
 			Up: func() error {
 				return nil
 			},

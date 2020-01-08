@@ -1,6 +1,7 @@
 package transact
 
 import (
+	"fmt"
 	"sync"
 )
 
@@ -21,9 +22,29 @@ func (t *Transaction) AddProcess(p ...Process) {
 	t.Processes = append(t.Processes, p...)
 }
 
+// ValidateTransacton validates the tranaction
+// it ensures that there are no repeated names
+func (t *Transaction) ValidateTransacton() error {
+	m := make(map[string]struct{})
+
+	for _, p := range t.Processes {
+		if _, exists := m[p.Name()]; exists {
+			return fmt.Errorf("process %s has duplicates", p.Name())
+		}
+		m[p.Name()] = struct{}{}
+	}
+
+	return nil
+}
+
 // Transact performs the transaction
 // [Not thread safe]
 func (t *Transaction) Transact() error {
+	err := t.ValidateTransacton()
+	if err != nil {
+		return err
+	}
+
 	pErr := t.up()
 	if pErr != nil {
 		pErr = t.down(pErr)
