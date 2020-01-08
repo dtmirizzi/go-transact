@@ -66,6 +66,7 @@ func TestTransaction_ValidateTransaction(t *testing.T) {
 
 		err := trans.Transact()
 		assert.NotNil(t, err)
+
 	})
 }
 
