@@ -12,35 +12,35 @@
 [Documentation](https://godoc.org/github.com/dtmirizzi/go-transact/pkg)
 ## Example 
 ```
-    t := NewTransaction()
+t := NewTransaction()
 	
-	// Create DB Table 
-	// This function describes how to create the table
-	CreateDBTable := func() error {
-		// Do something
-		return nil
-	}
-	// This function describes how to remove the table 
-	DeleteDBTable := func() error {
-		// Do something
-		return nil
-	}
-	// This adds the process the the queue 
-	t.AddProcess(NewProc(ProcConfig{
-		Name: "p0",
-		Up:   CreateDBTable,
-		Down: DeleteDBTable,
-	}))
+// Create DB Table 
+// This function describes how to create the table
+CreateDBTable := func() error {
+	// Do something
+	return nil
+}
+// This function describes how to remove the table 
+DeleteDBTable := func() error {
+	// Do something
+	return nil
+}
+// This adds the process the the queue 
+t.AddProcess(NewProc(ProcConfig{
+	Name: "p0",
+	Up:   CreateDBTable,
+	Down: DeleteDBTable,
+}))
 
-	err := t.Transact()
-	if err != nil {
-		if tErr, ok := err.(*TransactionError); ok {
-        		fmt.Println(tErr)
-        		if !tErr.Safe() {
-            		panic("Failed to safely revert changes!")
-        		}
-    		}	
-	}
+err := t.Transact()
+if err != nil {
+	if tErr, ok := err.(*TransactionError); ok {
+		fmt.Println(tErr)
+        if !tErr.Safe() {
+            panic("Failed to safely revert changes!")
+        }
+    }	
+}
 ```
 
 
