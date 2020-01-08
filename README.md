@@ -24,7 +24,7 @@ To create an user you need to add a db table and insert the creds to AWS Incogni
 If either fail you would like to roll back your changes so that you can retry at another time.  
 
 ## Example 
-```
+```go
 t := NewTransaction()
 	
 //-- Create DB Table Process  --//
@@ -75,7 +75,6 @@ if err != nil {
     fmt.Println(err)	
 }
 ```
-
 ## Development
 - Install [Precommit](https://pre-commit.com/), [go-acc](https://github.com/ory/go-acc), 
 [gocyclo](https://github.com/fzipp/gocyclo), 
