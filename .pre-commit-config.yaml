@@ -1,12 +1,12 @@
 repos:
   - repo: git://github.com/dnephin/pre-commit-golang
-    rev: v0.3.4
+    rev: v0.3.5
     hooks:
       - id: go-fmt
       - id: go-lint
       - id: golangci-lint
   - repo: git://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+    rev: v2.4.0
     hooks:
       - id: check-merge-conflict
       - id: trailing-whitespace
