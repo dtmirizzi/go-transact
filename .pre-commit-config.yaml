@@ -5,6 +5,8 @@ repos:
       - id: go-fmt
       - id: go-lint
       - id: golangci-lint
+      - id: go-imports
+      - id: go-cyclo
   - repo: git://github.com/pre-commit/pre-commit-hooks
     rev: v2.4.0
     hooks:
