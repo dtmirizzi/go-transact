@@ -43,7 +43,7 @@ func (p *Proc) Down() error {
 }
 
 // NewProc builds a new proc from config
-func NewProc(pc ProcConfig) *Proc {
+func NewProc(pc *ProcConfig) *Proc {
 	return &Proc{
 		PName:    pc.Name,
 		UpFunc:   pc.Up,

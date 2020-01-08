@@ -13,7 +13,7 @@ func ExampleTransaction() {
 		// Do something
 		return nil
 	}
-	t.AddProcess(NewProc(ProcConfig{
+	t.AddProcess(NewProc(&ProcConfig{
 		Name: "p0",
 		Up:   CreateDBTable,
 		Down: DeleteDBTable,
@@ -27,7 +27,7 @@ func ExampleTransaction() {
 		// Do something
 		return nil
 	}
-	t.AddProcess(NewProc(ProcConfig{
+	t.AddProcess(NewProc(&ProcConfig{
 		Name: "p1",
 		Up:   PutMessageOnQueue,
 		Down: DeleteMessageFromQueue,
