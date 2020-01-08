@@ -13,6 +13,62 @@ func TestTransaction_NewTransaction(t *testing.T) {
 	assert.NotNil(t, trans)
 }
 
+func TestTransaction_ValidateTransaction(t *testing.T) {
+	t.Run("Valid", func(t *testing.T) {
+		p0 := NewProc(ProcConfig{
+			Name: "p0",
+			Up: func() error {
+				return nil
+			},
+			Down: func() error {
+				return nil
+			},
+		})
+
+		p1 := NewProc(ProcConfig{
+			Name: "p1",
+			Up: func() error {
+				return nil
+			},
+			Down: func() error {
+				return nil
+			},
+		})
+
+		trans := NewTransaction(p0, p1)
+
+		err := trans.Transact()
+		assert.Nil(t, err)
+	})
+
+	t.Run("Invalid", func(t *testing.T) {
+		p0 := NewProc(ProcConfig{
+			Name: "p0",
+			Up: func() error {
+				return nil
+			},
+			Down: func() error {
+				return nil
+			},
+		})
+
+		p1 := NewProc(ProcConfig{
+			Name: "p0",
+			Up: func() error {
+				return nil
+			},
+			Down: func() error {
+				return nil
+			},
+		})
+
+		trans := NewTransaction(p0, p1)
+
+		err := trans.Transact()
+		assert.NotNil(t, err)
+	})
+}
+
 func TestTransaction_Transact(t *testing.T) {
 	t.Run("Success", func(t *testing.T) {
 		p0 := NewProc(ProcConfig{
