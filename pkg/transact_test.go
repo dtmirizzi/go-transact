@@ -15,25 +15,25 @@ func TestTransaction_NewTransaction(t *testing.T) {
 
 func TestTransaction_ValidateTransaction(t *testing.T) {
 	t.Run("Valid", func(t *testing.T) {
-		p0 := NewProc(&ProcConfig{
-			Name: "p0",
-			Up: func() error {
+		p0 := &Proc{
+			PName: "p0",
+			UpFunc: func() error {
 				return nil
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				return nil
 			},
-		})
+		}
 
-		p1 := NewProc(&ProcConfig{
-			Name: "p1",
-			Up: func() error {
+		p1 := &Proc{
+			PName: "p1",
+			UpFunc: func() error {
 				return nil
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				return nil
 			},
-		})
+		}
 
 		trans := NewTransaction(p0, p1)
 
@@ -42,25 +42,25 @@ func TestTransaction_ValidateTransaction(t *testing.T) {
 	})
 
 	t.Run("Invalid", func(t *testing.T) {
-		p0 := NewProc(&ProcConfig{
-			Name: "p0",
-			Up: func() error {
+		p0 := &Proc{
+			PName: "p0",
+			UpFunc: func() error {
 				return nil
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				return nil
 			},
-		})
+		}
 
-		p1 := NewProc(&ProcConfig{
-			Name: "p0",
-			Up: func() error {
+		p1 := &Proc{
+			PName: "p0",
+			UpFunc: func() error {
 				return nil
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				return nil
 			},
-		})
+		}
 
 		trans := NewTransaction(p0, p1)
 
@@ -72,25 +72,25 @@ func TestTransaction_ValidateTransaction(t *testing.T) {
 
 func TestTransaction_Transact(t *testing.T) {
 	t.Run("Success", func(t *testing.T) {
-		p0 := NewProc(&ProcConfig{
-			Name: "p0",
-			Up: func() error {
+		p0 := &Proc{
+			PName: "p0",
+			UpFunc: func() error {
 				return nil
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				return nil
 			},
-		})
+		}
 
-		p1 := NewProc(&ProcConfig{
-			Name: "p1",
-			Up: func() error {
+		p1 := &Proc{
+			PName: "p1",
+			UpFunc: func() error {
 				return nil
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				return nil
 			},
-		})
+		}
 
 		trans := NewTransaction(p0, p1)
 
@@ -101,15 +101,15 @@ func TestTransaction_Transact(t *testing.T) {
 
 func TestTransaction_Transact2(t *testing.T) {
 	t.Run("Up Failure", func(t *testing.T) {
-		p0 := NewProc(&ProcConfig{
-			Name: "p0",
-			Up: func() error {
+		p0 := &Proc{
+			PName: "p0",
+			UpFunc: func() error {
 				return errors.New("process failed")
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				return nil
 			},
-		})
+		}
 
 		trans := NewTransaction(p0)
 
@@ -125,16 +125,16 @@ func TestTransaction_Transact2(t *testing.T) {
 func TestTransaction_Transact3(t *testing.T) {
 	t.Run("Up and Down Fail", func(t *testing.T) {
 
-		p0 := NewProc(&ProcConfig{
-			Name: "p0",
-			Up: func() error {
+		p0 := &Proc{
+			PName: "p0",
+			UpFunc: func() error {
 				return errors.New("process 0 failed")
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				// This should not run!
 				return errors.New("process 0 down failed")
 			},
-		})
+		}
 
 		trans := NewTransaction(p0)
 
@@ -149,15 +149,15 @@ func TestTransaction_Transact3(t *testing.T) {
 
 func TestTransaction_Transact4(t *testing.T) {
 	t.Run("Only Down Failure", func(t *testing.T) {
-		p0 := NewProc(&ProcConfig{
-			Name: "p0",
-			Up: func() error {
+		p0 := &Proc{
+			PName: "p0",
+			UpFunc: func() error {
 				return nil
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				return errors.New("process 0 down failed")
 			},
-		})
+		}
 
 		trans := NewTransaction(p0)
 
@@ -168,25 +168,25 @@ func TestTransaction_Transact4(t *testing.T) {
 
 func TestTransaction_Transact5(t *testing.T) {
 	t.Run("P0 Up Failure P1 Down Failure", func(t *testing.T) {
-		p0 := NewProc(&ProcConfig{
-			Name: "p0",
-			Up: func() error {
+		p0 := &Proc{
+			PName: "p0",
+			UpFunc: func() error {
 				return errors.New("process 0 up failed")
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				return nil
 			},
-		})
+		}
 
-		p1 := NewProc(&ProcConfig{
-			Name: "p1",
-			Up: func() error {
+		p1 := &Proc{
+			PName: "p1",
+			UpFunc: func() error {
 				return nil
 			},
-			Down: func() error {
+			DownFunc: func() error {
 				return errors.New("process 1 down failed")
 			},
-		})
+		}
 
 		trans := NewTransaction(p0, p1)
 

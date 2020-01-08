@@ -9,21 +9,14 @@ type Process interface {
 	Down() error
 }
 
-// ProcConfig defines the most simple process possible
-type ProcConfig struct {
-	// Name should be a unique identifier for the process
-	Name string
-	// Up is a simple anon function that is the primary intent of the process
-	Up func() error
-	// Down is a simple anon function that is used to undo the the up function
-	Down func() error
-}
-
 // Proc is the most simple process possible
 // it wraps the fuction calls to meet its basic interface
 type Proc struct {
-	PName    string
-	UpFunc   func() error
+	// PName should be a unique identifier for the process
+	PName string
+	// UpFunc is a simple anon function that is the primary intent of the process
+	UpFunc func() error
+	// DownFunc is a simple anon function that is the primary intent of the process
 	DownFunc func() error
 }
 
@@ -40,13 +33,4 @@ func (p *Proc) Up() error {
 // Down wraps the Down anon funtion
 func (p *Proc) Down() error {
 	return p.DownFunc()
-}
-
-// NewProc builds a new proc from config
-func NewProc(pc *ProcConfig) *Proc {
-	return &Proc{
-		PName:    pc.Name,
-		UpFunc:   pc.Up,
-		DownFunc: pc.Down,
-	}
 }

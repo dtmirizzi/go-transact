@@ -42,11 +42,11 @@ DeleteDBTable := func() error {
 // This adds the process the the queue 
 // NewProc is the most basic process defined process possible 
 // You may add any struct that meets the Process interface...
-t.AddProcess( NewProc( &ProcConfig{
+t.AddProcess( &ProcC{
 	Name: "p0", // PROCESS NAMES MUST BE UNIQUE!
 	Up:   CreateDBTable,
 	Down: DeleteDBTable,
-}))
+})
 
 
 //-- Insert Creds To Incognito process --//
@@ -56,11 +56,11 @@ InsertCredsToIncognito := func() error {
 RemoveCredsToIncognito := func() error {
 	return nil
 }
-t.AddProcess( NewProc( &ProcConfig{
+t.AddProcess( &Proc{
 	Name: "p1",
 	Up:   InsertCredsToIncognito,
 	Down: RemoveCredsToIncognito,
-}))
+})
 
 //-- Make Transaction concurrently (NOT TREAD SAFE) --//
 err := t.Transact()
