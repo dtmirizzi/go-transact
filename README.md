@@ -25,11 +25,11 @@
 		return nil
 	}
 	// This adds the process the the queue 
-	t.AddProcess(Process{
+	t.AddProcess(NewProc(ProcConfig{
 		Name: "p0",
 		Up:   CreateDBTable,
 		Down: DeleteDBTable,
-	})
+	}))
 
 	err := t.Transact()
 	if err != nil {

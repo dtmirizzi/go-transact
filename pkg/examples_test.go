@@ -13,11 +13,11 @@ func ExampleTransaction() {
 		// Do something
 		return nil
 	}
-	t.AddProcess(Process{
+	t.AddProcess(NewProc(ProcConfig{
 		Name: "p0",
 		Up:   CreateDBTable,
 		Down: DeleteDBTable,
-	})
+	}))
 
 	PutMessageOnQueue := func() error {
 		// Do something
@@ -27,11 +27,11 @@ func ExampleTransaction() {
 		// Do something
 		return nil
 	}
-	t.AddProcess(Process{
+	t.AddProcess(NewProc(ProcConfig{
 		Name: "p1",
 		Up:   PutMessageOnQueue,
 		Down: DeleteMessageFromQueue,
-	})
+	}))
 
 	err := t.Transact()
 	if err != nil {

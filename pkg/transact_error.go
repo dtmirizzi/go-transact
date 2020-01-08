@@ -28,14 +28,14 @@ func NewTransactionError() *TransactionError {
 // AppendUpError appends up process errors
 func (t *TransactionError) AppendUpError(ps ...ProcessError) {
 	for _, p := range ps {
-		t.UpErrors[p.Process.Name] = p
+		t.UpErrors[p.Process.Name()] = p
 	}
 }
 
 // AppendDownError appends down process error
 func (t *TransactionError) AppendDownError(ps ...ProcessError) {
 	for _, p := range ps {
-		t.DownErrors[p.Process.Name] = p
+		t.DownErrors[p.Process.Name()] = p
 	}
 }
 
@@ -81,5 +81,5 @@ func (t *TransactionError) Safe() bool {
 }
 
 func formatProcessError(p ProcessError) string {
-	return fmt.Sprintf("\n Process: %s -> err: %s,", p.Process.Name, p.Error)
+	return fmt.Sprintf("\n Process: %s -> err: %s,", p.Process.Name(), p.Error)
 }

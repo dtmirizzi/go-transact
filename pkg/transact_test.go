@@ -9,7 +9,7 @@ import (
 
 func TestTransaction_Transact(t *testing.T) {
 	t.Run("Success", func(t *testing.T) {
-		trans := NewTransaction(Process{
+		p0 := NewProc(ProcConfig{
 			Name: "p0",
 			Up: func() error {
 				return nil
@@ -17,16 +17,19 @@ func TestTransaction_Transact(t *testing.T) {
 			Down: func() error {
 				return nil
 			},
-		},
-			Process{
-				Name: "p1",
-				Up: func() error {
-					return nil
-				},
-				Down: func() error {
-					return nil
-				},
-			})
+		})
+
+		p1 := NewProc(ProcConfig{
+			Name: "p0",
+			Up: func() error {
+				return nil
+			},
+			Down: func() error {
+				return nil
+			},
+		})
+
+		trans := NewTransaction(p0, p1)
 
 		err := trans.Transact()
 		assert.Nil(t, err)
@@ -35,7 +38,7 @@ func TestTransaction_Transact(t *testing.T) {
 
 func TestTransaction_Transact2(t *testing.T) {
 	t.Run("Up Failure", func(t *testing.T) {
-		trans := NewTransaction(Process{
+		p0 := NewProc(ProcConfig{
 			Name: "p0",
 			Up: func() error {
 				return errors.New("process failed")
@@ -44,6 +47,8 @@ func TestTransaction_Transact2(t *testing.T) {
 				return nil
 			},
 		})
+
+		trans := NewTransaction(p0)
 
 		err := trans.Transact()
 		assert.NotNil(t, err)
@@ -56,7 +61,8 @@ func TestTransaction_Transact2(t *testing.T) {
 
 func TestTransaction_Transact3(t *testing.T) {
 	t.Run("Up and Down Fail", func(t *testing.T) {
-		trans := NewTransaction(Process{
+
+		p0 := NewProc(ProcConfig{
 			Name: "p0",
 			Up: func() error {
 				return errors.New("process 0 failed")
@@ -66,6 +72,8 @@ func TestTransaction_Transact3(t *testing.T) {
 				return errors.New("process 0 down failed")
 			},
 		})
+
+		trans := NewTransaction(p0)
 
 		err := trans.Transact()
 		assert.NotNil(t, err)
@@ -79,7 +87,7 @@ func TestTransaction_Transact3(t *testing.T) {
 
 func TestTransaction_Transact4(t *testing.T) {
 	t.Run("Only Down Failure", func(t *testing.T) {
-		trans := NewTransaction(Process{
+		p0 := NewProc(ProcConfig{
 			Name: "p0",
 			Up: func() error {
 				return nil
@@ -89,6 +97,8 @@ func TestTransaction_Transact4(t *testing.T) {
 			},
 		})
 
+		trans := NewTransaction(p0)
+
 		err := trans.Transact()
 		assert.Nil(t, err)
 	})
@@ -96,7 +106,7 @@ func TestTransaction_Transact4(t *testing.T) {
 
 func TestTransaction_Transact5(t *testing.T) {
 	t.Run("P0 Up Failure P1 Down Failure", func(t *testing.T) {
-		trans := NewTransaction(Process{
+		p0 := NewProc(ProcConfig{
 			Name: "p0",
 			Up: func() error {
 				return errors.New("process 0 up failed")
@@ -104,16 +114,19 @@ func TestTransaction_Transact5(t *testing.T) {
 			Down: func() error {
 				return nil
 			},
-		},
-			Process{
-				Name: "p1",
-				Up: func() error {
-					return nil
-				},
-				Down: func() error {
-					return errors.New("process 1 down failed")
-				},
-			})
+		})
+
+		p1 := NewProc(ProcConfig{
+			Name: "p1",
+			Up: func() error {
+				return nil
+			},
+			Down: func() error {
+				return errors.New("process 1 down failed")
+			},
+		})
+
+		trans := NewTransaction(p0, p1)
 
 		err := trans.Transact()
 		assert.NotNil(t, err)
