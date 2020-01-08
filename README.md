@@ -42,7 +42,7 @@ DeleteDBTable := func() error {
 // This adds the process the the queue 
 // NewProc is the most basic process defined process possible 
 // You may add any struct that meets the Process interface...
-t.AddProcess( &ProcC{
+t.AddProcess( &Proc{
 	Name: "p0", // PROCESS NAMES MUST BE UNIQUE!
 	Up:   CreateDBTable,
 	Down: DeleteDBTable,
