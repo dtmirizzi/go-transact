@@ -2,10 +2,16 @@ package transact
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
+
+func TestTransaction_NewTransaction(t *testing.T) {
+	trans := NewTransaction()
+	assert.NotNil(t, trans)
+}
 
 func TestTransaction_Transact(t *testing.T) {
 	t.Run("Success", func(t *testing.T) {

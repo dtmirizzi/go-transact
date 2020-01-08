@@ -1,4 +1,5 @@
-# Go-Transact
+
+![](assets/logo.png)
 
 ![](https://github.com/dtmirizzi/go-transact/workflows/Test/badge.svg)
 
@@ -7,9 +8,9 @@
 ```$xslt
  go get -u github.com/dtmirizzi/go-transact
 ```
-## Usage
+## Docs 
 [Documentation](https://godoc.org/github.com/dtmirizzi/go-transact/pkg)
-### Basic Example 
+## Example 
 ```
     t := NewTransaction()
 	
