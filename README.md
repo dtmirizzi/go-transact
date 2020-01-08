@@ -34,11 +34,12 @@
 
 	err := t.Transact()
 	if err != nil {
-		tErr := err.(*TransactionError)
-		fmt.Println(tErr)
-		if !tErr.Safe() {
-			panic("Failed to safely revert changes!")
-		}
+		if tErr, ok := err.(*TransactionError); ok {
+        	fmt.Println(tErr)
+        	if !tErr.Safe() {
+            	panic("Failed to safely revert changes!")
+        	}
+    	}
 	}
 ```
 
