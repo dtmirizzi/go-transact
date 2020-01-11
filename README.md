@@ -25,6 +25,8 @@ If either fail you would like to roll back your changes so that you can retry at
 
 ## Example 
 ```go
+import "github.com/dtmirizzi/go-transact"
+
 t := NewTransaction()
 	
 //-- Create DB Table Process  --//
@@ -39,11 +41,11 @@ DeleteDBTable := func() error {
 	return nil
 }
 
-// This adds the process the the queue 
-// NewProc is the most basic process defined process possible 
+// This adds the process the queue 
+// NewProc is the most basic process possible 
 // You may add any struct that meets the Process interface...
 t.AddProcess( &Proc{
-	Name: "p0", // PROCESS NAMES MUST BE UNIQUE!
+	Name: "p0", // NAMES MUST BE UNIQUE!
 	Up:   CreateDBTable,
 	Down: DeleteDBTable,
 })
@@ -65,14 +67,14 @@ t.AddProcess( &Proc{
 //-- Make Transaction concurrently (NOT TREAD SAFE) --//
 err := t.Transact()
 if err != nil {
-    // You may cast the error to gain helper methods 
+    	// You may cast the error to gain helper methods 
 	if tErr, ok := err.(*TransactionError); ok {
-        // this ensures that all transactions were undone. 
-        if !tErr.Safe() {
-            panic("Failed to safely revert changes!")
-        }
-    }
-    fmt.Println(err)	
+        	// this ensures that all transactions were undone. 
+        	if !tErr.Safe() {
+            		panic("Failed to safely revert changes!")
+        	}
+   	}
+    	fmt.Println(err)	
 }
 ```
 ## Development
