@@ -14,9 +14,9 @@
 Often times in `synchronous` distributed systems you will have a set of processes 
 that need to be performed at roughly the same time. 
 To declare success all sub-processes must complete successfully, 
-If one fails it is often common to undo all processes, revert state and retry. 
+If one fails it is often common to revert state and retry. 
 If synchronicity is not required the problem
-is often better solved in an `asynchronous` fashion.  
+is often better solved in an `asynchronous` fashion. This library is ment to provide a simple interface for handling said transactions.  
 
 ## Use Case
 You are tasked with creating a realtime user management engine by D. Corp.
