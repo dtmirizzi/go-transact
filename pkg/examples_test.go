@@ -3,10 +3,14 @@ package transact
 import "fmt"
 
 func ExampleTransaction() {
+
+	h := "hello"
+	W := "World!"
 	t := NewTransaction()
 
 	CreateDBTable := func() error {
 		// Do something
+		fmt.Println(h + W)
 		return nil
 	}
 	DeleteDBTable := func() error {

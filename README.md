@@ -1,7 +1,7 @@
 
 ![](assets/logo.png)
 
-![](https://github.com/dtmirizzi/go-transact/workflows/Test/badge.svg)
+![](https://github.com/dtmirizzi/go-transact/workflows/test/badge.svg)
 
 
 ## Install 
