@@ -2,7 +2,7 @@
 ![](assets/logo.png)
 
 ![](https://github.com/dtmirizzi/go-transact/workflows/test/badge.svg)
-
+[![Go Report Card](https://goreportcard.com/badge/github.com/dtmirizzi/go-transact)](https://goreportcard.com/report/github.com/dtmirizzi/go-transact)
 
 ## Install 
 ```$xslt
