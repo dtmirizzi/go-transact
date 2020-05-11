@@ -30,7 +30,7 @@ func (p *Proc) Up() error {
 	return p.UpFunc()
 }
 
-// Down wraps the Down anon funtion
+// Down wraps the Down anon function
 func (p *Proc) Down() error {
 	return p.DownFunc()
 }
