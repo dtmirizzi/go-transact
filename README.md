@@ -29,42 +29,40 @@ import "github.com/dtmirizzi/go-transact"
 
 t := NewTransaction()
 	
-//-- Create DB Table Process  --//
-// This function describes how to create the table
-CreateDBTable := func() error {
+/// Create DB Table Process
+
+createDBTable := func() error {
     // Do something 
 	return nil
 }
-// This function describes how to remove the table 
-DeleteDBTable := func() error {
+deleteDBTable := func() error {
     // Do the opposite 
 	return nil
 }
 
-// This adds the process the queue 
-// NewProc is the most basic process possible 
+// This adds the process the transaction 
+// Proc is the most basic process possible 
 // You may add any struct that meets the Process interface...
 t.AddProcess( &Proc{
 	Name: "p0", // NAMES MUST BE UNIQUE!
-	Up:   CreateDBTable,
-	Down: DeleteDBTable,
+	Up:   createDBTable,
+	Down: deleteDBTable,
 })
 
 
-//-- Insert Creds To Incognito process --//
-InsertCredsToIncognito := func() error {
+insertCredsToIncognito := func() error {
 	return nil
 }
-RemoveCredsToIncognito := func() error {
+removeCredsFromIncognito := func() error {
 	return nil
 }
 t.AddProcess( &Proc{
 	Name: "p1",
-	Up:   InsertCredsToIncognito,
-	Down: RemoveCredsToIncognito,
+	Up:   insertCredsToIncognito,
+	Down: removeCredsFromIncognito,
 })
 
-//-- Make Transaction concurrently (NOT TREAD SAFE) --//
+/// Make Transaction concurrently (NOT TREAD SAFE)
 err := t.Transact()
 if err != nil {
     	// You may cast the error to gain helper methods 
