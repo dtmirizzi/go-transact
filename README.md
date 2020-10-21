@@ -9,7 +9,7 @@
  go get -u github.com/dtmirizzi/go-transact
 ```
 ## Docs 
-[Documentation](https://godoc.org/github.com/dtmirizzi/go-transact/pkg)
+[Documentation](https://pkg.go.dev/github.com/dtmirizzi/go-transact/pkg)
 ## Problem
 Often times in `synchronous` distributed systems you will have a set of processes 
 that need to be performed at roughly the same time. 
