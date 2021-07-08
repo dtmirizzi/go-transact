@@ -22,4 +22,5 @@ jobs:
 
     - name: Test
       run: |
-        go get github.com/ory/go-acc && go run go-acc ./pkg
+        go get github.com/ory/go-acc 
+        go run go-acc ./pkg
