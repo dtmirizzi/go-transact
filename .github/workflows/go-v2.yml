@@ -19,8 +19,8 @@ jobs:
     - name: Get dependencies
       run: |
         go mod vendor -v
-        go get github.com/ory/go-acc
 
     - name: Test
       run: |
+	go get github.com/ory/go-acc
         go-acc ./pkg
