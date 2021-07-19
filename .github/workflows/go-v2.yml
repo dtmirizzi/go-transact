@@ -22,4 +22,4 @@ jobs:
 
     - name: Test
       run: |
-        go get github.com/ory/go-acc && go-acc ./pkg
+        go test -v  -coverprofile=coverage.txt -covermode=atomic
