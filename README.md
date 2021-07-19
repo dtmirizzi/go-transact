@@ -3,6 +3,7 @@
 
 ![](https://github.com/dtmirizzi/go-transact/workflows/test/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dtmirizzi/go-transact)](https://goreportcard.com/report/github.com/dtmirizzi/go-transact)
+[![codecov](https://codecov.io/gh/dtmirizzi/go-transact/branch/master/graph/badge.svg?token=RF05N77J6O)](https://codecov.io/gh/dtmirizzi/go-transact)
 
 ## Install 
 ```$xslt
