@@ -1,6 +1,8 @@
 package transact
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"sync"
 )
@@ -55,6 +57,32 @@ func (t *Transaction) Transact() error {
 	}
 
 	return nil
+}
+
+// TransactCtx performs a transaction with a context deadline
+func (t *Transaction) TransactCtx(ctx context.Context) error {
+
+	var err error
+	done := make(chan struct{})
+
+	go func() {
+		err = t.Transact()
+
+		done <- struct{}{}
+	}()
+
+	select {
+	case <-done:
+		break
+	case <-ctx.Done():
+		return errors.New("context timeout exceeded")
+	}
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }
 
 func (t *Transaction) up() *TransactionError {
