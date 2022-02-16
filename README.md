@@ -68,6 +68,8 @@ if err != nil {
         if !tErr.Safe() {
             panic("Failed to safely revert changes!")
         }
+    } else {
+        fmt.println(err)	
     }
 }
 ```
