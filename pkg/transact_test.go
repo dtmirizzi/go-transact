@@ -1,8 +1,10 @@
 package transact
 
 import (
+	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
@@ -214,4 +216,73 @@ func TestTransaction_Transact(t *testing.T) {
 		// This is not safe return false
 		assert.False(t, tErr.Safe())
 	})
+}
+
+func TestTransaction_TransactCtx(t *testing.T) {
+	cases := []struct {
+		Name      string
+		Processes []*Proc
+		ctx       context.Context
+		err       error
+	}{
+		{Name: "Success",
+			Processes: []*Proc{{
+				PName: "p0",
+				UpFunc: func() error {
+					return nil
+				},
+				DownFunc: func() error {
+					return nil
+				},
+			},
+				{
+					PName: "p1",
+					UpFunc: func() error {
+						return nil
+					},
+					DownFunc: func() error {
+						return nil
+					},
+				}},
+			ctx: context.Background(),
+			err: nil},
+		{
+			Name: "Context Exceeded",
+			Processes: []*Proc{{
+				PName: "p0",
+				UpFunc: func() error {
+					time.Sleep(time.Second * 10)
+					return nil
+				},
+				DownFunc: func() error {
+					return nil
+				},
+			}, {
+				PName: "p1",
+				UpFunc: func() error {
+					return nil
+				},
+				DownFunc: func() error {
+					return nil
+				},
+			},
+			},
+			ctx: func() context.Context {
+				ctx, _ := context.WithDeadline(context.Background(), time.Now().Add(time.Second))
+				return ctx
+			}(),
+			err: fmt.Errorf("context timeout exceeded"),
+		},
+	}
+
+	for _, c := range cases {
+		t.Run(c.Name, func(t *testing.T) {
+			trans := NewTransaction()
+			for _, p := range c.Processes {
+				trans.AddProcess(p)
+			}
+			err := trans.TransactCtx(c.ctx)
+			assert.Equal(t, c.err, err)
+		})
+	}
 }
