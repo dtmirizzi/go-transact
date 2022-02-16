@@ -49,7 +49,12 @@ func (t *Transaction) Transact() error {
 	if pErr != nil {
 		pErr = t.down(pErr)
 	}
-	return pErr
+
+	if pErr != nil {
+		return pErr
+	}
+
+	return nil
 }
 
 func (t *Transaction) up() *TransactionError {

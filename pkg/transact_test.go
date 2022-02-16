@@ -1,6 +1,7 @@
 package transact
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/pkg/errors"
@@ -58,7 +59,7 @@ func TestTransaction_ValidateTransaction(t *testing.T) {
 				},
 			},
 			},
-			err: errors.New("process p0 has duplicates"),
+			err: fmt.Errorf("process p0 has duplicates"),
 		},
 	}
 
