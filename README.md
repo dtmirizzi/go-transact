@@ -28,57 +28,51 @@ If either fail you would like to roll back your changes so that you can retry at
 ```go
 import "github.com/dtmirizzi/go-transact"
 
-t := NewTransaction()
-	
-/// Create DB Table Process
+h := "hello"
+W := "World!"
+t := transact.NewTransaction()
 
-createDBTable := func() error {
-    // Do something 
-	return nil
+CreateDBTable := func() error {
+    // Do something
+    fmt.Println(h + W)
+    return nil
 }
-deleteDBTable := func() error {
-    // Do the opposite 
-	return nil
+DeleteDBTable := func() error {
+    // Do something
+    return nil
 }
-
-// This adds the process the transaction 
-// Proc is the most basic process possible 
-// You may add any struct that meets the Process interface...
-t.AddProcess( &Proc{
-	Name: "p0", // NAMES MUST BE UNIQUE!
-	Up:   createDBTable,
-	Down: deleteDBTable,
+t.AddProcess(&transact.Proc{
+    PName:    "p0",
+    UpFunc:   CreateDBTable,
+    DownFunc: DeleteDBTable,
 })
 
-
-insertCredsToIncognito := func() error {
-	return nil
+PutMessageOnQueue := func() error {
+    // Do something
+    return nil
 }
-removeCredsFromIncognito := func() error {
-	return nil
+DeleteMessageFromQueue := func() error {
+    // Do something
+    return nil
 }
-t.AddProcess( &Proc{
-	Name: "p1",
-	Up:   insertCredsToIncognito,
-	Down: removeCredsFromIncognito,
+t.AddProcess(&transact.Proc{
+    PName:    "p1",
+    UpFunc:   PutMessageOnQueue,
+    DownFunc: DeleteMessageFromQueue,
 })
 
-/// Make Transaction concurrently (NOT TREAD SAFE)
 err := t.Transact()
 if err != nil {
-    	// You may cast the error to gain helper methods 
-	if tErr, ok := err.(*TransactionError); ok {
-        	// this ensures that all transactions were undone. 
-        	if !tErr.Safe() {
-            		panic("Failed to safely revert changes!")
-        	}
-   	}
-    	fmt.Println(err)	
+    if tErr, ok := err.(*transact.TransactionError); ok {
+        fmt.Println(tErr)
+        if !tErr.Safe() {
+            panic("Failed to safely revert changes!")
+        }
+    }
 }
 ```
 ## Development
-- Install [Precommit](https://pre-commit.com/), [go-acc](https://github.com/ory/go-acc), 
-[gocyclo](https://github.com/fzipp/gocyclo), 
-and [golangci-lint](https://github.com/golangci/golangci-lint).
+- Install [Precommit](https://pre-commit.com/),
+  [golangci-lint](https://github.com/golangci/golangci-lint).
 - Run ```pre-commit install```
 - Ship it!! 
