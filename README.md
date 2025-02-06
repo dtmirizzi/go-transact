@@ -18,7 +18,7 @@ To declare success all sub-processes must complete successfully,
 If one fails it is often common to revert state and retry. 
 If synchronicity is not required the problem
 is often better solved in an `asynchronous` fashion. This library is ment to provide a simple interface for handling said transactions.  
-Based off ideas [here](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr-2008-19.pdf) and [here](https://en.wikipedia.org/wiki/Transaction_processing)
+Based off ideas in ["A Model of Transactional Programming"](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr-2008-19.pdf) and [Transaction processing](https://en.wikipedia.org/wiki/Transaction_processing)
 
 ## Use Case
 You are tasked with creating a realtime user management engine by D. Corp.
